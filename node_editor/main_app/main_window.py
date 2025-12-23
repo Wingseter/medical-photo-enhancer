@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QDockWidget, QLabel, QFormLayout, QDoubleSpinBox, QSpinBox, QMessageBox, QSizePolicy
 )
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtGui import QPixmap, QImage
+from PySide6.QtGui import QPixmap, QImage, QIcon
 
 from node_editor.core.node_graph import NodeGraph
 from node_editor.nodes import NODE_TYPES
@@ -32,8 +32,18 @@ class MainWindow(QMainWindow):
     def create_docks(self):
         node_list_dock = QDockWidget("Nodes", self)
         self.node_list_widget = QListWidget()
-        # Populate list from the automatically registered nodes
-        self.node_list_widget.addItems(sorted(NODE_TYPES.keys()))
+        
+        self.node_icon_map = {
+            "Input": "node_editor/icons/image.svg",
+            "Output": "node_editor/icons/eye.svg",
+        }
+
+        for node_name in sorted(NODE_TYPES.keys()):
+            item = QListWidgetItem(node_name)
+            if node_name in self.node_icon_map:
+                item.setIcon(QIcon(self.node_icon_map[node_name]))
+            self.node_list_widget.addItem(item)
+            
         self.node_list_widget.itemDoubleClicked.connect(self.add_node_from_list)
         node_list_dock.setWidget(self.node_list_widget); self.addDockWidget(Qt.LeftDockWidgetArea, node_list_dock)
 
@@ -61,6 +71,7 @@ class MainWindow(QMainWindow):
         control_dock = QDockWidget("Controls", self)
         control_widget = QWidget(); control_layout = QVBoxLayout(control_widget)
         self.run_button = QPushButton("Run / Update"); self.run_button.clicked.connect(self.execute_graph_threaded)
+        self.run_button.setIcon(QIcon("node_editor/icons/play.svg"))
         control_layout.addWidget(self.run_button); control_dock.setWidget(control_widget)
         self.addDockWidget(Qt.LeftDockWidgetArea, control_dock)
 
@@ -112,6 +123,7 @@ class MainWindow(QMainWindow):
         # Add Save Image button
         self.properties_layout.addRow(QWidget()) # Spacer
         save_button = QPushButton("Save Image")
+        save_button.setIcon(QIcon("node_editor/icons/save.svg"))
         save_button.clicked.connect(self.save_node_output)
         is_cached = node.cached_data is not None
         save_button.setEnabled(is_cached)

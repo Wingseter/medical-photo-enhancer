@@ -2,17 +2,17 @@
 
 ## Project Overview
 
-This project aims to create a modular and extensible image enhancement application using Python and the PySide6 GUI framework. The application will allow users to load images, apply various enhancement algorithms (from classical techniques to deep learning models), and view the results in a user-friendly interface.
+This project implements a Node-Based Image Processing Application using PySide6 and OpenCV. Users can visually construct image processing pipelines by connecting nodes in a graph editor. Key features include:
 
-The core of the application is a custom image viewer built with `QGraphicsView` that supports panning and zooming. The image processing algorithms are designed using the Strategy Pattern, allowing for easy addition and removal of new algorithms. The UI for algorithm parameters is generated dynamically based on the selected algorithm's requirements.
-
-The project will also include a deep learning integration example, demonstrating how to load and use `.safetensors` models for image enhancement tasks. This will be handled in a separate thread to avoid blocking the GUI.
+*   **Smart Caching (DAG):** Optimizes computations by only re-executing nodes whose inputs or parameters have changed, leveraging a Directed Acyclic Graph (DAG) structure.
+*   **Extensible Node System:** Easily add new image processing algorithms as independent nodes.
+*   **Custom GUI (QGraphicsView):** An interactive node editor allowing drag-and-drop node placement, connection drawing, and dynamic parameter editing via a properties panel.
+*   **Viewer:** A dedicated panel to display the output of any selected node.
 
 ## Key Technologies
 
 *   **GUI:** PySide6
-*   **Image Processing:** OpenCV, PyTorch (or ONNX)
-*   **Core Libraries:** NumPy
+*   **Image Processing:** OpenCV, NumPy
 
 ## Building and Running
 
@@ -22,7 +22,6 @@ The project will also include a deep learning integration example, demonstrating
 *   PySide6
 *   OpenCV-Python
 *   NumPy
-*   PyTorch (or onnxruntime)
 
 ### Installation
 
@@ -37,28 +36,38 @@ pip install -r requirements.txt
 To run the application, execute the following command in your terminal:
 
 ```bash
-python -m enhancer.main
+python main.py
 ```
 
 ## Project Structure
 
 ```
 .
-├── enhancer
-│   ├── __init__.py
-│   ├── main.py               # Main application window
-│   ├── image_viewer.py       # Custom QGraphicsView for image display
-│   └── processors
-│       ├── __init__.py
-│       ├── base_processor.py   # Abstract base class for image processors
-│       ├── unsharp_masking.py  # Unsharp Masking algorithm
-│       └── deep_learning.py    # Dummy deep learning enhancer
-└── requirements.txt
+├── main.py                               # Application entry point
+├── requirements.txt                      # Project dependencies
+└── node_editor/
+    ├── __init__.py
+    ├── core/
+    │   ├── __init__.py
+    │   └── node_graph.py                 # Core Node and NodeGraph logic (DAG, caching)
+    ├── nodes/
+    │   ├── __init__.py                   # Aggregates all node types into NODE_TYPES dictionary
+    │   ├── base_nodes.py                 # InputNode, OutputNode
+    │   ├── opencv_nodes.py               # GaussianBlurNode, SharpenNode, GrayscaleNode, etc.
+    │   └── deep_learning_nodes.py        # Dummy DeepLearningNode
+    ├── widgets/
+    │   ├── __init__.py
+    │   ├── node_items.py                 # QGraphicsObject for NodePort, NodeWidget, EdgeWidget
+    │   ├── node_editor_view.py           # QGraphicsView with zoom/pan functionality
+    │   └── node_editor_scene.py          # QGraphicsScene for managing nodes and connections
+    └── main_app/
+        ├── __init__.py
+        └── main_window.py                # Main application window, docks, and UI connections
 ```
 
 ## Development Conventions
 
 *   **Code Style:** The project will follow the PEP 8 style guide for Python code.
-*   **Modularity:** The application is designed to be modular, with clear separation of concerns between the GUI, image processing logic, and data models.
-*   **Testing:** Unit tests will be added to ensure the correctness of the image processing algorithms and other critical components.
+*   **Modularity:** The application is designed to be highly modular, with clear separation of concerns between core logic, algorithms, and GUI components.
+*   **Testing:** Unit tests will be added in future iterations to ensure the correctness of the node processing logic and graph operations.
 *   **Contributions:** Contributions are welcome. Please follow the existing coding style and submit a pull request with your changes.

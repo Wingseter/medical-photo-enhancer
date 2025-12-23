@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QPushButton, QFileDialog, QListWidget, QListWidgetItem, 
-    QDockWidget, QLabel, QFormLayout, QDoubleSpinBox, QSpinBox, QMessageBox, QSizePolicy
+    QDockWidget, QLabel, QFormLayout, QDoubleSpinBox, QSpinBox, QMessageBox, QSizePolicy, QSplitter
 )
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QPixmap, QImage, QIcon, QAction
@@ -49,8 +49,9 @@ class MainWindow(QMainWindow):
         self.node_list_dock.setWidget(self.node_list_widget)
         self.addDockWidget(Qt.LeftDockWidgetArea, self.node_list_dock)
 
-        self.properties_dock = QDockWidget("Properties", self)
-        self.properties_dock.setFixedWidth(300) # Set a fixed width for the properties dock
+        self.right_dock = QDockWidget("Properties / Viewer", self)
+        right_splitter = QSplitter(Qt.Vertical)
+
         properties_container_widget = QWidget()
         properties_container_layout = QVBoxLayout(properties_container_widget)
         
@@ -62,14 +63,15 @@ class MainWindow(QMainWindow):
         properties_container_layout.addWidget(self.properties_widget)
         properties_container_layout.addStretch(1)
         
-        self.properties_dock.setWidget(properties_container_widget)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.properties_dock)
-
-        
-        self.viewer_dock = QDockWidget("Viewer", self)
         self.viewer_label = QLabel("Select a node and press 'Run / Update'"); self.viewer_label.setAlignment(Qt.AlignCenter)
-        self.viewer_dock.setWidget(self.viewer_label)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.viewer_dock)
+
+        right_splitter.addWidget(properties_container_widget)
+        right_splitter.addWidget(self.viewer_label)
+        right_splitter.setSizes([300, 600])
+
+        self.right_dock.setWidget(right_splitter)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
+
 
         self.control_dock = QDockWidget("Controls", self)
         control_widget = QWidget(); control_layout = QVBoxLayout(control_widget)
@@ -90,8 +92,7 @@ class MainWindow(QMainWindow):
         # View Menu
         view_menu = menu_bar.addMenu("View")
         view_menu.addAction(self.node_list_dock.toggleViewAction())
-        view_menu.addAction(self.properties_dock.toggleViewAction())
-        view_menu.addAction(self.viewer_dock.toggleViewAction())
+        view_menu.addAction(self.right_dock.toggleViewAction())
         view_menu.addAction(self.control_dock.toggleViewAction())
 
     @Slot(QListWidgetItem)

@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
         self.node_icon_map = {
             "Input": "node_editor/icons/image.svg",
             "Output": "node_editor/icons/eye.svg",
+            "SD x4 Upscaler": "node_editor/icons/expand.svg",
         }
 
         for node_name in sorted(NODE_TYPES.keys()):

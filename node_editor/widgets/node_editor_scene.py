@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QGraphicsScene, QGraphicsLineItem, QGraphicsView
 from PySide6.QtCore import Qt, QLineF
 from PySide6.QtGui import QPen, QColor
 
-from node_editor.widgets.node_items import NodePort, EdgeWidget, PORT_COLOR
+from node_editor.widgets.node_items import NodePort, EdgeWidget, COLOR_PORT
 
 class NodeEditorScene(QGraphicsScene):
     def __init__(self, parent=None):
@@ -28,7 +28,7 @@ class NodeEditorScene(QGraphicsScene):
         if isinstance(item, NodePort) and item.is_output:
             self.start_port = item
             self.line = QGraphicsLineItem(QLineF(self.start_port.scenePos(), event.scenePos()))
-            self.line.setPen(QPen(PORT_COLOR, 2))
+            self.line.setPen(QPen(COLOR_PORT, 2))
             self.addItem(self.line)
             
             # Temporarily disable rubber band drag while connecting

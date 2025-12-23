@@ -1,9 +1,21 @@
 from PySide6.QtWidgets import QGraphicsItem, QGraphicsObject, QGraphicsSceneMouseEvent
-from PySide6.QtCore import Qt, QPointF, QRectF, QLineF, Signal, Slot
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath
+from PySide6.QtCore import Qt, QPointF, QRectF, Signal
+from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath, QFont, QPainterPathStroker
 
-PORT_SIZE = 10
-PORT_COLOR = QColor("#FFAA00")
+PORT_SIZE = 12
+NODE_HEADER_HEIGHT = 25
+NODE_WIDTH = 150
+NODE_HEIGHT = 100
+
+# --- Color Palette ---
+COLOR_BACKGROUND = QColor("#222222")
+COLOR_NODE_BODY = QColor("#3A3A3A")
+COLOR_NODE_HEADER = QColor("#007ACC")
+COLOR_NODE_BORDER = QColor("#555555")
+COLOR_NODE_BORDER_SELECTED = QColor("#00A8FF")
+COLOR_PORT = QColor("#FFAA00")
+COLOR_EDGE = QColor("#FFAA00")
+COLOR_TEXT = QColor("#DDDDDD")
 
 class NodePort(QGraphicsObject):
     def __init__(self, parent, is_output=False):
@@ -11,9 +23,13 @@ class NodePort(QGraphicsObject):
         self.is_output, self.hovered = is_output, False
         self.setAcceptHoverEvents(True)
         self.setFlag(QGraphicsItem.ItemIsSelectable, False)
+        self.setToolTip("Input" if not is_output else "Output")
 
     def boundingRect(self): return QRectF(-PORT_SIZE/2, -PORT_SIZE/2, PORT_SIZE, PORT_SIZE)
-    def paint(self, p, o, w): p.setPen(Qt.NoPen); p.setBrush(PORT_COLOR.lighter(150) if self.hovered else PORT_COLOR); p.drawEllipse(self.boundingRect())
+    def paint(self, p, o, w):
+        p.setPen(QPen(COLOR_NODE_BORDER, 2))
+        p.setBrush(COLOR_PORT.lighter(120) if self.hovered else COLOR_PORT)
+        p.drawEllipse(self.boundingRect())
     def hoverEnterEvent(self, e): self.hovered = True; self.update(); super().hoverEnterEvent(e)
     def hoverLeaveEvent(self, e): self.hovered = False; self.update(); super().hoverLeaveEvent(e)
 
@@ -22,19 +38,38 @@ class NodeWidget(QGraphicsObject):
     def __init__(self, node_id, node_name):
         super().__init__()
         self.node_id, self.node_name = node_id, node_name
-        self.width, self.height = 120, 80
+        self.width, self.height = NODE_WIDTH, NODE_HEIGHT
         self.setFlags(QGraphicsItem.ItemIsMovable | QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemSendsGeometryChanges)
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
 
-        self.input_port = NodePort(self, False); self.input_port.setPos(self.width/2, 0)
+        self.input_port = NodePort(self, False); self.input_port.setPos(self.width/2, NODE_HEADER_HEIGHT)
         self.output_port = NodePort(self, True); self.output_port.setPos(self.width/2, self.height)
 
-    def boundingRect(self): return QRectF(0,0,self.width,self.height).adjusted(-5,-5,5,5)
+    def boundingRect(self): return QRectF(0,0,self.width,self.height).adjusted(-2,-2,2,2)
     def paint(self, p, o, w):
-        rect = QRectF(0, 0, self.width, self.height)
-        bg_color = QColor("#1E3D59").lighter(130) if self.isSelected() else QColor("#1E3D59")
-        p.setBrush(bg_color); p.setPen(QPen(Qt.white, 2)); p.drawRoundedRect(rect, 10, 10)
-        p.setPen(Qt.white); p.drawText(rect, Qt.AlignCenter, self.node_name)
+        p.setRenderHint(QPainter.Antialiasing)
+        
+        # Main body
+        body_rect = QRectF(0, 0, self.width, self.height)
+        p.setBrush(COLOR_NODE_BODY)
+        border_pen = QPen(COLOR_NODE_BORDER_SELECTED if self.isSelected() else COLOR_NODE_BORDER, 2)
+        p.setPen(border_pen)
+        p.drawRoundedRect(body_rect, 8, 8)
+
+        # Header
+        header_rect = QRectF(0, 0, self.width, NODE_HEADER_HEIGHT)
+        header_path = QPainterPath()
+        header_path.addRoundedRect(header_rect, 8, 8)
+        header_path.addRect(0, NODE_HEADER_HEIGHT - 8, self.width, 8) # Mask bottom corners
+        p.setBrush(COLOR_NODE_HEADER)
+        p.setPen(Qt.NoPen)
+        p.drawPath(header_path)
+        
+        # Text
+        font = QFont("Arial", 10, QFont.Bold)
+        p.setFont(font)
+        p.setPen(COLOR_TEXT)
+        p.drawText(header_rect, Qt.AlignCenter, self.node_name)
 
     def itemChange(self, change, value):
         if change == QGraphicsItem.ItemPositionHasChanged and self.scene():
@@ -54,12 +89,27 @@ class EdgeWidget(QGraphicsObject):
 
     def update_path(self):
         self.prepareGeometryChange()
-        # Map points to scene coordinates first, then to this item's coordinates
-        p1_scene = self.start_port.scenePos()
-        p2_scene = self.end_port.scenePos()
-        self.path = QPainterPath(self.mapFromScene(p1_scene))
-        self.path.lineTo(self.mapFromScene(p2_scene))
+        p1 = self.start_port.scenePos()
+        p2 = self.end_port.scenePos()
+        
+        path = QPainterPath(p1)
+        
+        # Bezier curve calculation
+        dx = p2.x() - p1.x()
+        dy = p2.y() - p1.y()
+        ctrl1 = QPointF(p1.x() + dx * 0.5, p1.y() + dy * 0.1)
+        ctrl2 = QPointF(p1.x() + dx * 0.5, p1.y() + dy * 0.9)
+        path.cubicTo(ctrl1, ctrl2, p2)
+        
+        self.path = path
 
     def boundingRect(self): return self.path.boundingRect()
-    def shape(self): return self.path
-    def paint(self, p, o, w): p.setPen(QPen(PORT_COLOR, 2)); p.drawPath(self.path)
+    def shape(self):
+        stroker = QPainterPathStroker()
+        stroker.setWidth(10)
+        return stroker.createStroke(self.path)
+    def paint(self, p, o, w):
+        p.setRenderHint(QPainter.Antialiasing)
+        p.setPen(QPen(COLOR_EDGE, 2.5))
+        p.setBrush(Qt.NoBrush)
+        p.drawPath(self.path)

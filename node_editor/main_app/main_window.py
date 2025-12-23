@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QDockWidget, QLabel, QFormLayout, QDoubleSpinBox, QSpinBox, QMessageBox, QSizePolicy
 )
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtGui import QPixmap, QImage, QIcon
+from PySide6.QtGui import QPixmap, QImage, QIcon, QAction
 
 from node_editor.core.node_graph import NodeGraph
 from node_editor.nodes import NODE_TYPES
@@ -28,9 +28,10 @@ class MainWindow(QMainWindow):
         self.worker = None
         
         self.create_docks()
+        self.create_menus()
         
     def create_docks(self):
-        node_list_dock = QDockWidget("Nodes", self)
+        self.node_list_dock = QDockWidget("Nodes", self)
         self.node_list_widget = QListWidget()
         
         self.node_icon_map = {
@@ -45,10 +46,11 @@ class MainWindow(QMainWindow):
             self.node_list_widget.addItem(item)
             
         self.node_list_widget.itemDoubleClicked.connect(self.add_node_from_list)
-        node_list_dock.setWidget(self.node_list_widget); self.addDockWidget(Qt.LeftDockWidgetArea, node_list_dock)
+        self.node_list_dock.setWidget(self.node_list_widget)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.node_list_dock)
 
-        properties_dock = QDockWidget("Properties", self)
-        properties_dock.setFixedWidth(300) # Set a fixed width for the properties dock
+        self.properties_dock = QDockWidget("Properties", self)
+        self.properties_dock.setFixedWidth(300) # Set a fixed width for the properties dock
         properties_container_widget = QWidget()
         properties_container_layout = QVBoxLayout(properties_container_widget)
         
@@ -60,20 +62,37 @@ class MainWindow(QMainWindow):
         properties_container_layout.addWidget(self.properties_widget)
         properties_container_layout.addStretch(1)
         
-        properties_dock.setWidget(properties_container_widget)
-        self.addDockWidget(Qt.RightDockWidgetArea, properties_dock)
+        self.properties_dock.setWidget(properties_container_widget)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.properties_dock)
 
         
-        viewer_dock = QDockWidget("Viewer", self)
+        self.viewer_dock = QDockWidget("Viewer", self)
         self.viewer_label = QLabel("Select a node and press 'Run / Update'"); self.viewer_label.setAlignment(Qt.AlignCenter)
-        viewer_dock.setWidget(self.viewer_label); self.addDockWidget(Qt.RightDockWidgetArea, viewer_dock)
+        self.viewer_dock.setWidget(self.viewer_label)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.viewer_dock)
 
-        control_dock = QDockWidget("Controls", self)
+        self.control_dock = QDockWidget("Controls", self)
         control_widget = QWidget(); control_layout = QVBoxLayout(control_widget)
         self.run_button = QPushButton("Run / Update"); self.run_button.clicked.connect(self.execute_graph_threaded)
         self.run_button.setIcon(QIcon("node_editor/icons/play.svg"))
-        control_layout.addWidget(self.run_button); control_dock.setWidget(control_widget)
-        self.addDockWidget(Qt.LeftDockWidgetArea, control_dock)
+        control_layout.addWidget(self.run_button); self.control_dock.setWidget(control_widget)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.control_dock)
+
+    def create_menus(self):
+        menu_bar = self.menuBar()
+        
+        # File Menu
+        file_menu = menu_bar.addMenu("File")
+        exit_action = QAction("Exit", self)
+        exit_action.triggered.connect(self.close)
+        file_menu.addAction(exit_action)
+        
+        # View Menu
+        view_menu = menu_bar.addMenu("View")
+        view_menu.addAction(self.node_list_dock.toggleViewAction())
+        view_menu.addAction(self.properties_dock.toggleViewAction())
+        view_menu.addAction(self.viewer_dock.toggleViewAction())
+        view_menu.addAction(self.control_dock.toggleViewAction())
 
     @Slot(QListWidgetItem)
     def add_node_from_list(self, item):

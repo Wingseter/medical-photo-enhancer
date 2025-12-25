@@ -56,7 +56,7 @@ class WorkflowRunnerPage(QWidget):
     def _create_workflow_panel(self):
         """Create the workflow list panel."""
         panel = QFrame()
-        panel.setStyleSheet("QFrame { background: #2A2A2A; }")
+        panel.setStyleSheet("QFrame { background: #2D3142; }")
         panel.setMinimumWidth(250)
         panel.setMaximumWidth(350)
         layout = QVBoxLayout(panel)
@@ -65,7 +65,7 @@ class WorkflowRunnerPage(QWidget):
 
         # Header
         header = QLabel("Workflows")
-        header.setStyleSheet("font-size: 18px; font-weight: bold; color: #E0E0E0;")
+        header.setStyleSheet("font-size: 22px; font-weight: bold; color: #E0E0E0;")
         layout.addWidget(header)
 
         # Search box
@@ -73,14 +73,14 @@ class WorkflowRunnerPage(QWidget):
         self.search_box.setPlaceholderText("Search workflows...")
         self.search_box.setStyleSheet("""
             QLineEdit {
-                background: #3A3A3A;
-                border: 1px solid #555;
-                border-radius: 4px;
-                padding: 8px;
-                color: #E0E0E0;
+                background: #353849;
+                border: 1px solid #4A4F6A;
+                border-radius: 6px;
+                padding: 10px;
+                color: #E8EAF0;
             }
             QLineEdit:focus {
-                border-color: #007ACC;
+                border-color: #7986CB;
             }
         """)
         self.search_box.textChanged.connect(self._filter_workflows)
@@ -132,24 +132,24 @@ class WorkflowRunnerPage(QWidget):
     def _create_execution_panel(self):
         """Create the execution/preview panel."""
         panel = QFrame()
-        panel.setStyleSheet("QFrame { background: #252525; }")
+        panel.setStyleSheet("QFrame { background: #252836; }")
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(16)
 
         # Workflow info header
         self.workflow_title = QLabel("Select a workflow to begin")
-        self.workflow_title.setStyleSheet("font-size: 20px; font-weight: bold; color: #E0E0E0;")
+        self.workflow_title.setStyleSheet("font-size: 24px; font-weight: bold; color: #E0E0E0;")
         layout.addWidget(self.workflow_title)
 
         self.workflow_desc = QLabel("")
         self.workflow_desc.setWordWrap(True)
-        self.workflow_desc.setStyleSheet("color: #888; font-size: 12px;")
+        self.workflow_desc.setStyleSheet("color: #888; font-size: 14px;")
         layout.addWidget(self.workflow_desc)
 
         # Input images section
         input_section = QLabel("Input Images")
-        input_section.setStyleSheet("font-size: 14px; font-weight: bold; color: #E0E0E0; margin-top: 8px;")
+        input_section.setStyleSheet("font-size: 16px; font-weight: bold; color: #E0E0E0; margin-top: 12px;")
         layout.addWidget(input_section)
 
         self.image_selector = ImageSelector()
@@ -157,7 +157,7 @@ class WorkflowRunnerPage(QWidget):
 
         # Output folder section
         output_section = QLabel("Output Folder")
-        output_section.setStyleSheet("font-size: 14px; font-weight: bold; color: #E0E0E0; margin-top: 8px;")
+        output_section.setStyleSheet("font-size: 16px; font-weight: bold; color: #E0E0E0; margin-top: 12px;")
         layout.addWidget(output_section)
 
         output_layout = QHBoxLayout()
@@ -167,11 +167,11 @@ class WorkflowRunnerPage(QWidget):
         self.output_path.setPlaceholderText("Select output folder...")
         self.output_path.setStyleSheet("""
             QLineEdit {
-                background: #3A3A3A;
-                border: 1px solid #555;
-                border-radius: 4px;
-                padding: 8px;
-                color: #E0E0E0;
+                background: #353849;
+                border: 1px solid #4A4F6A;
+                border-radius: 6px;
+                padding: 10px;
+                color: #E8EAF0;
             }
         """)
         output_layout.addWidget(self.output_path)
@@ -190,13 +190,14 @@ class WorkflowRunnerPage(QWidget):
         self.progress_bar = QProgressBar()
         self.progress_bar.setStyleSheet("""
             QProgressBar {
-                background: #3A3A3A;
+                background: #353849;
                 border: none;
                 border-radius: 4px;
-                height: 8px;
+                height: 10px;
             }
             QProgressBar::chunk {
-                background: #007ACC;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                    stop:0 #5C6BC0, stop:1 #7986CB);
                 border-radius: 4px;
             }
         """)
@@ -213,7 +214,7 @@ class WorkflowRunnerPage(QWidget):
 
         # Preview gallery
         preview_section = QLabel("Results Preview")
-        preview_section.setStyleSheet("font-size: 14px; font-weight: bold; color: #E0E0E0; margin-top: 8px;")
+        preview_section.setStyleSheet("font-size: 16px; font-weight: bold; color: #E0E0E0; margin-top: 12px;")
         layout.addWidget(preview_section)
 
         self.preview_gallery = PreviewGallery()
@@ -230,9 +231,9 @@ class WorkflowRunnerPage(QWidget):
         self.run_btn.setStyleSheet("""
             QPushButton {
                 background: #2D7D46;
-                font-size: 14px;
+                font-size: 16px;
                 font-weight: bold;
-                padding: 14px 32px;
+                padding: 16px 40px;
             }
             QPushButton:hover { background: #3D8D56; }
             QPushButton:disabled { background: #555; color: #888; }
@@ -245,8 +246,8 @@ class WorkflowRunnerPage(QWidget):
         self.stop_btn.setStyleSheet("""
             QPushButton {
                 background: #C62828;
-                font-size: 14px;
-                padding: 14px 24px;
+                font-size: 16px;
+                padding: 16px 28px;
             }
             QPushButton:hover { background: #E53935; }
             QPushButton:disabled { background: #555; color: #888; }

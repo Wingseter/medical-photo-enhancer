@@ -50,15 +50,15 @@ CATEGORY_COLORS = {
 }
 
 # --- Base Colors ---
-COLOR_NODE_BODY = QColor("#2D2D2D")
-COLOR_NODE_BODY_GRADIENT = QColor("#252525")
-COLOR_NODE_BORDER = QColor("#1A1A1A")
-COLOR_NODE_BORDER_SELECTED = QColor("#FFB300")  # Amber for selection
-COLOR_PORT_INPUT = QColor("#4FC3F7")   # Light blue for inputs
+COLOR_NODE_BODY = QColor("#2D3142")
+COLOR_NODE_BODY_GRADIENT = QColor("#252836")
+COLOR_NODE_BORDER = QColor("#1E2030")
+COLOR_NODE_BORDER_SELECTED = QColor("#7986CB")  # Indigo for selection
+COLOR_PORT_INPUT = QColor("#7986CB")   # Indigo for inputs
 COLOR_PORT_OUTPUT = QColor("#81C784")  # Light green for outputs
-COLOR_PORT = QColor("#90CAF9")  # Default port color for edge dragging
-COLOR_TEXT = QColor("#E0E0E0")
-COLOR_SHADOW = QColor(0, 0, 0, 60)
+COLOR_PORT = QColor("#9FA8DA")  # Default port color for edge dragging
+COLOR_TEXT = QColor("#E8EAF0")
+COLOR_SHADOW = QColor(0, 0, 0, 50)
 
 
 class NodePort(QGraphicsObject):

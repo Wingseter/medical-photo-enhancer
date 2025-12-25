@@ -26,8 +26,8 @@ class WorkflowCard(QFrame):
         if self._is_selected:
             self.setStyleSheet("""
                 WorkflowCard {
-                    background: #404040;
-                    border: 2px solid #007ACC;
+                    background: #3D4259;
+                    border: 2px solid #7986CB;
                     border-radius: 8px;
                     padding: 8px;
                 }
@@ -35,14 +35,14 @@ class WorkflowCard(QFrame):
         else:
             self.setStyleSheet("""
                 WorkflowCard {
-                    background: #3A3A3A;
-                    border: 1px solid #555;
+                    background: #353849;
+                    border: 1px solid #4A4F6A;
                     border-radius: 8px;
                     padding: 8px;
                 }
                 WorkflowCard:hover {
-                    border-color: #007ACC;
-                    background: #404040;
+                    border-color: #5C6BC0;
+                    background: #3D4259;
                 }
             """)
 
@@ -57,13 +57,13 @@ class WorkflowCard(QFrame):
 
         # Thumbnail
         self.thumbnail_label = QLabel()
-        self.thumbnail_label.setFixedSize(140, 90)
+        self.thumbnail_label.setFixedSize(160, 100)
         self.thumbnail_label.setAlignment(Qt.AlignCenter)
         self.thumbnail_label.setStyleSheet("""
-            background: #2A2A2A;
-            border-radius: 4px;
-            color: #666;
-            font-size: 10px;
+            background: #252836;
+            border-radius: 6px;
+            color: #6B7394;
+            font-size: 11px;
         """)
 
         # Load thumbnail from base64 if available
@@ -72,7 +72,7 @@ class WorkflowCard(QFrame):
             pixmap = self._decode_thumbnail(thumb_data)
             if pixmap and not pixmap.isNull():
                 self.thumbnail_label.setPixmap(pixmap.scaled(
-                    140, 90, Qt.KeepAspectRatio, Qt.SmoothTransformation
+                    160, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation
                 ))
             else:
                 self.thumbnail_label.setText("No Preview")
@@ -84,7 +84,7 @@ class WorkflowCard(QFrame):
         # Name
         name = self.workflow_data.get('metadata', {}).get('name', 'Untitled')
         self.name_label = QLabel(name)
-        self.name_label.setStyleSheet("font-weight: bold; color: #E0E0E0; font-size: 11px;")
+        self.name_label.setStyleSheet("font-weight: bold; color: #E0E0E0; font-size: 13px;")
         self.name_label.setAlignment(Qt.AlignCenter)
         self.name_label.setWordWrap(True)
         layout.addWidget(self.name_label)
@@ -92,7 +92,7 @@ class WorkflowCard(QFrame):
         # Node count
         node_count = len(self.workflow_data.get('nodes', []))
         count_label = QLabel(f"{node_count} nodes")
-        count_label.setStyleSheet("color: #888; font-size: 9px;")
+        count_label.setStyleSheet("color: #888; font-size: 11px;")
         count_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(count_label)
 

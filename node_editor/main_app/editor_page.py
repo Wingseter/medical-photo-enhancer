@@ -72,7 +72,7 @@ class NodeEditorPage(QWidget):
         panel = QFrame()
         panel.setMinimumWidth(200)
         panel.setMaximumWidth(300)
-        panel.setStyleSheet("QFrame { background: #2A2A2A; }")
+        panel.setStyleSheet("QFrame { background: #2D3142; }")
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -87,14 +87,14 @@ class NodeEditorPage(QWidget):
         panel = QFrame()
         panel.setMinimumWidth(150)
         panel.setMaximumWidth(220)
-        panel.setStyleSheet("QFrame { background: #2A2A2A; }")
+        panel.setStyleSheet("QFrame { background: #2D3142; }")
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(8)
 
         # Run section
         run_label = QLabel("Execution")
-        run_label.setStyleSheet("font-weight: bold; color: #E0E0E0;")
+        run_label.setStyleSheet("font-weight: bold; color: #E0E0E0; font-size: 14px;")
         layout.addWidget(run_label)
 
         self.run_button = QPushButton("Run / Update")
@@ -103,19 +103,19 @@ class NodeEditorPage(QWidget):
         self.run_button.setStyleSheet("""
             QPushButton {
                 background: #2D7D46;
-                padding: 10px;
-                font-size: 13px;
+                padding: 12px;
+                font-size: 14px;
             }
             QPushButton:hover { background: #3D8D56; }
             QPushButton:disabled { background: #555; }
         """)
         layout.addWidget(self.run_button)
 
-        layout.addSpacing(20)
+        layout.addSpacing(24)
 
         # Workflow section
         workflow_label = QLabel("Workflow")
-        workflow_label.setStyleSheet("font-weight: bold; color: #E0E0E0;")
+        workflow_label.setStyleSheet("font-weight: bold; color: #E0E0E0; font-size: 14px;")
         layout.addWidget(workflow_label)
 
         self.save_workflow_btn = QPushButton("Save Workflow")

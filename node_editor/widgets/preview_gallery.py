@@ -15,7 +15,7 @@ class ImageThumbnail(QFrame):
 
     clicked = Signal(str)  # filepath
 
-    THUMBNAIL_SIZE = 140
+    THUMBNAIL_SIZE = 160
 
     def __init__(self, filepath, pixmap, parent=None):
         super().__init__(parent)
@@ -26,13 +26,13 @@ class ImageThumbnail(QFrame):
     def _setup_ui(self, pixmap):
         self.setStyleSheet("""
             ImageThumbnail {
-                background: #2A2A2A;
-                border: 1px solid #444;
-                border-radius: 4px;
+                background: #2D3142;
+                border: 1px solid #3D4259;
+                border-radius: 6px;
                 padding: 4px;
             }
             ImageThumbnail:hover {
-                border-color: #007ACC;
+                border-color: #5C6BC0;
             }
         """)
         self.setFixedSize(self.THUMBNAIL_SIZE + 8, self.THUMBNAIL_SIZE + 30)
@@ -53,7 +53,7 @@ class ImageThumbnail(QFrame):
         # Filename
         filename = Path(self.filepath).name
         name_label = QLabel(filename)
-        name_label.setStyleSheet("color: #AAA; font-size: 9px;")
+        name_label.setStyleSheet("color: #9BA3C2; font-size: 9px;")
         name_label.setAlignment(Qt.AlignCenter)
         name_label.setWordWrap(True)
         name_label.setMaximumHeight(20)
@@ -76,8 +76,8 @@ class PreviewGallery(QScrollArea):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setStyleSheet("""
             QScrollArea {
-                background: #252525;
-                border: 1px solid #444;
+                background: #252836;
+                border: 1px solid #3D4259;
                 border-radius: 6px;
             }
         """)

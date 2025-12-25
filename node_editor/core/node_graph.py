@@ -109,3 +109,51 @@ class NodeGraph:
             print(f"Error: End node with ID '{end_node_id}' not found.")
             return None
         return end_node.execute()
+
+    def clear(self):
+        """Clear all nodes from the graph."""
+        self.nodes.clear()
+
+    def recreate_from_workflow(self, workflow_data: dict, node_types: dict) -> dict:
+        """
+        Recreate the graph from workflow data.
+
+        Args:
+            workflow_data: The loaded workflow JSON data
+            node_types: Dict mapping node type names to node classes (NODE_TYPES)
+
+        Returns:
+            A mapping of old_node_id -> new_node_id for widget creation.
+        """
+        self.clear()
+        id_mapping = {}
+
+        # Create nodes
+        for node_data in workflow_data.get('nodes', []):
+            old_id = node_data['id']
+            node_type = node_data['type']
+
+            if node_type not in node_types:
+                print(f"Warning: Unknown node type '{node_type}', skipping.")
+                continue
+
+            node_class = node_types[node_type]
+            node = node_class()
+
+            # Restore parameters
+            for param_name, param_data in node_data.get('parameters', {}).items():
+                if param_name in node.parameters:
+                    node.parameters[param_name]['value'] = param_data.get('value')
+
+            self.nodes[node.id] = node
+            id_mapping[old_id] = node.id
+
+        # Recreate connections
+        for conn in workflow_data.get('connections', []):
+            from_id = id_mapping.get(conn['from_node'])
+            to_id = id_mapping.get(conn['to_node'])
+
+            if from_id and to_id:
+                self.connect(from_id, to_id)
+
+        return id_mapping

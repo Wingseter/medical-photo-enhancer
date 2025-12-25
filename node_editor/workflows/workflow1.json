@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "name": "workflow1",
+    "description": "default discription",
+    "version": "1.0",
+    "created_at": "2025-12-25T13:08:46.750084",
+    "updated_at": "2025-12-25T13:08:46.750102",
+    "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMcAAACWCAIAAADltQvDAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFV0lEQVR4nO3db2hVdRzH8e/uXd4NyVX2KFH6J/lfIhJKa0OoxCaWLKmIRYQPSnuQUkrLEiEm/YEwlpBRZGBoczULxWjFYD0IKWhkyzYzetQf2bq2f2e7954ebC2zsTbv59zz8/7eL0Tu5vXHd5z3fveMc7aVzJ23zACpRNwDoAhRFfSoCnpUBT2qgh5VQY+qoEdV0KMq6FEV9KgKelQFPaqCHlVBj6qgR1XQoyroURX0qAp6VAU9qoIeVUGPqqBHVdCjKuhRFfSoCnpUBT2qgh5VQY+qoEdV0KMq6FEV9KgKelQFPaqCHlVBj6qgR1XQoyroURX0qAp6VAU9qoJeadwDFFpNbUPcI4xq3Lcx7hGiUuLPb3KrqW1oTm+Ne4p/GW7ujXuESHi0VzX9tsXMPtv2wcpd98Y9i82tvKKztTsY7EuVTY97Fj2P9qpw5einUNuOI2Z294v3r1tW/WjVQyt2rI5rpKEjaaq6uGWWxz3Bf2RbinOv8ugVcGH1VXGPcL72ls64R4iER1Ut7qj76OBTcU/hBY+qMjML4x7AD35VRVSF4VdVdFUYvlVlJ75pjXuEUQuXVsY9QlQ8uw7o1Fbl1DBSgr1qKDN86fqZ+a8zrqDprHQ9p46kU8MoCaoqX1uRCTL5r3Oe61dc1tX2RzAYpMpSqjWdOoxODaMlqCobZJ64c8Nrn+xNlCRatx82s9t2Vue/7MmWM2ZmVpL/UigwRVVDmVc/3mNmWbNbn12V/4JRcmqDcGoYJc1elf8iBeLUcXRqGKl8q9r8XIuZ7a6P5LL/7ZuXVL5Z+fzil6NYHNHJt6r+vrNmZmEkn3elqWR5unzBmmvam06OvfPGNTcvvuOmMJu0bNJyyffqpnBvZ+jS/uDUMFqCO2GSpZdIRjGza+dUjD3+8ee0mfX39qXKpk3wX3K5bC6bNbNEIvFA3faR1MJs4vix5tMdX489rWrVlrX3rHtjzwuHD+xQTZunvb+/NadizqYlz8Q9iJ7gvCr8e6N6evOGdPrPVNm03Q37znvOI+988fbDy+975VDvmV+O1m8ceXPk7wdfP5qaPiPo793/2F3jLjuxRCKZSCRHHh/YVX/uP2WzmTCXG3vz+x9+7Tzx6VQ/uuh0fdUVzA/iniISgr1q7KDm77qrLx97fOqnHjMb6B+YeK+avJrahg/3P9nxbZtktfzNX7Sir7eHu/bGN8lNZTK6TnerlhqXU6cyTg2jJbgOGFoutDCKP0sXzTYbzn9CFJjinoXQgsFIvgPpy+PfiV8gnNodnBpGSnMnzMVzcuDUkXRqGCXP7oRBQfhVlVObg1PDaPlVVUTXAC6QU8NIeVYVCsK7+9ZvWHBL3CMUP9+qKtoXHaf4VRVNFYZfVVloqZoZcQ8xKmjUfqOHQ3w7W3dqt3JqGCXfqrpw21Y/3rr1YNW8f072X1pf177z2LnvwQiPfn5VTW3DoXc3pWoq/v+pBRE0pgcHei+ei11T4Nd5VRja4PvpuKcofsmZV86Ke4YC6ez4PJd16L6a2bNmdvekS0s19yQ6xaO9anhowMyCwb64BxnVdao4f3yjeVXViGI9kE7ha0DoURX0qAp6VAU9qoIeVUGPqqBHVdCjKuhRFfSoCnpUBT2qgh5VQY+qoEdV0KMq6FEV9KgKelQFPaqCHlVBj6qgR1XQoyroURX0qAp6VAU9qoIeVUGPqqBHVdCjKuhRFfSoCnpUBT2qgh5VQY+qoEdV0KMq6FEV9KgKelQFPaqCHlVBj6qgR1XQoyroURX0qAp6VAU9qoIeVUGPqqBHVdCjKuhRFfSoCnpUBT2qgh5VQY+qoPcXx7di9azA/ukAAAAASUVORK5CYII="
+  },
+  "nodes": [
+    {
+      "id": "62fd753d-b735-4da2-9d6c-fd1e07f5fb95",
+      "type": "Input",
+      "position": {
+        "x": -1.0,
+        "y": -1.0
+      },
+      "size": {
+        "width": 180,
+        "height": 70
+      },
+      "parameters": {
+        "filepath": {
+          "type": "filepath",
+          "value": "/Users/kwon/Workspace/Python/2025/medical-photo-enhancer/Adipic_acid.png",
+          "range": null,
+          "step": null
+        }
+      }
+    },
+    {
+      "id": "97545ad9-302b-45b8-ad86-486ff1ec286e",
+      "type": "Output",
+      "position": {
+        "x": 322.0,
+        "y": -66.0
+      },
+      "size": {
+        "width": 280,
+        "height": 220
+      },
+      "parameters": {}
+    }
+  ],
+  "connections": [
+    {
+      "from_node": "62fd753d-b735-4da2-9d6c-fd1e07f5fb95",
+      "to_node": "97545ad9-302b-45b8-ad86-486ff1ec286e"
+    }
+  ],
+  "execution": {
+    "output_node_id": "97545ad9-302b-45b8-ad86-486ff1ec286e",
+    "input_node_ids": [
+      "62fd753d-b735-4da2-9d6c-fd1e07f5fb95"
+    ]
+  }
+}

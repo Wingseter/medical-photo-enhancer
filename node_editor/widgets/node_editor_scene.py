@@ -7,7 +7,7 @@ from node_editor.widgets.node_items import NodePort, EdgeWidget, COLOR_PORT
 class NodeEditorScene(QGraphicsScene):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setBackgroundBrush(QColor("#333333"))
+        self.setBackgroundBrush(QColor("#252836"))
         self.line = None
         self.start_port = None
 

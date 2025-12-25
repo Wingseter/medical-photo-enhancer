@@ -2,6 +2,8 @@ from node_editor.core.node_graph import Node
 import numpy as np
 
 class StableDiffusionx4UpscalerNode(Node):
+    category = "AI / Machine Learning"
+
     def __init__(self):
         super().__init__(name="SD x4 Upscaler", params={})
         self.pipeline = None

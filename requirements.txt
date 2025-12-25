@@ -6,3 +6,4 @@ torch
 diffusers
 transformers
 accelerate
+realesrgan

@@ -8,6 +8,7 @@ from PySide6.QtGui import QAction, QIcon
 from node_editor.main_app.tab_container import DetachableTabWidget
 from node_editor.main_app.runner_page import WorkflowRunnerPage
 from node_editor.main_app.editor_page import NodeEditorPage
+from node_editor.main_app.compare_page import ImageComparePage
 
 
 class MainWindow(QMainWindow):
@@ -25,6 +26,7 @@ class MainWindow(QMainWindow):
         # Create pages
         self.runner_page = WorkflowRunnerPage()
         self.editor_page = NodeEditorPage()
+        self.compare_page = ImageComparePage()
 
         # Add tabs (Runner first as default)
         self.tab_container.addTab(
@@ -36,6 +38,11 @@ class MainWindow(QMainWindow):
             self.editor_page,
             QIcon("node_editor/icons/tune.svg"),
             "Node Editor"
+        )
+        self.tab_container.addTab(
+            self.compare_page,
+            QIcon("node_editor/icons/compare.svg"),
+            "Image Compare"
         )
 
         # Connect signals
@@ -75,6 +82,11 @@ class MainWindow(QMainWindow):
         editor_action.setShortcut("Ctrl+2")
         editor_action.triggered.connect(lambda: self.tab_container.setCurrentWidget(self.editor_page))
         view_menu.addAction(editor_action)
+
+        compare_action = QAction("Image Compare", self)
+        compare_action.setShortcut("Ctrl+3")
+        compare_action.triggered.connect(lambda: self.tab_container.setCurrentWidget(self.compare_page))
+        view_menu.addAction(compare_action)
 
     @Slot()
     def _switch_to_editor(self):

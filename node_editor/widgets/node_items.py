@@ -310,6 +310,10 @@ class NodeWidget(QGraphicsObject):
 
         self.update()
 
+    def set_size(self, width, height):
+        """Set the node size (alias for resize, used when loading workflows)."""
+        self.resize(width, height)
+
     def _setup_parameter_widgets(self):
         """Create embedded widgets for each parameter."""
         if not self.parameters:

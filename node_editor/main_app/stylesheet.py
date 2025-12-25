@@ -284,4 +284,62 @@ QMenu::item {
 QMenu::item:selected {
     background-color: #007ACC;
 }
+
+/* Tab Widget */
+QTabWidget::pane {
+    border: none;
+    background-color: #252525;
+}
+
+QTabBar {
+    background-color: #2E2E2E;
+}
+
+QTabBar::tab {
+    background-color: #3A3A3A;
+    color: #AAA;
+    padding: 10px 20px;
+    margin-right: 2px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    min-width: 120px;
+}
+
+QTabBar::tab:selected {
+    background-color: #252525;
+    color: #E0E0E0;
+    font-weight: bold;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #454545;
+    color: #E0E0E0;
+}
+
+/* Progress Bar */
+QProgressBar {
+    background-color: #3A3A3A;
+    border: none;
+    border-radius: 4px;
+    height: 8px;
+    text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: #007ACC;
+    border-radius: 4px;
+}
+
+/* Input Dialog */
+QInputDialog {
+    background-color: #2E2E2E;
+}
+
+QInputDialog QLabel {
+    color: #E0E0E0;
+}
+
+QInputDialog QLineEdit {
+    min-width: 300px;
+}
 """

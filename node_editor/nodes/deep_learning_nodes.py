@@ -9,6 +9,8 @@ class SuperResolutionNode(Node):
     A node for performing super-resolution using a PyTorch model
     loaded from a .safetensors file.
     """
+    category = "AI / Machine Learning"
+
     def __init__(self):
         super().__init__("Super Resolution", params={
             'model_path': {'type': 'filepath', 'value': ''}

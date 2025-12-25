@@ -3,3 +3,7 @@ numpy
 opencv-python
 safetensors
 torch
+diffusers
+transformers
+accelerate
+realesrgan

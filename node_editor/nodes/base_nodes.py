@@ -3,6 +3,8 @@ import numpy as np
 from node_editor.core.node_graph import Node
 
 class InputNode(Node):
+    category = "Basic I/O"
+
     def __init__(self):
         super().__init__("Input", params={'filepath': {'type': 'filepath', 'value': ''}})
     def process(self, input_data):
@@ -16,5 +18,7 @@ class InputNode(Node):
         return None
 
 class OutputNode(Node):
+    category = "Basic I/O"
+
     def __init__(self): super().__init__("Output")
     def process(self, input_data): return input_data[0] if input_data else None

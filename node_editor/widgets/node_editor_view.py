@@ -49,3 +49,11 @@ class NodeEditorView(QGraphicsView):
             event.accept()
         else:
             super().mouseReleaseEvent(event)
+
+    def keyPressEvent(self, event):
+        # Delete selected edges with Delete or Backspace key
+        if event.key() in (Qt.Key_Delete, Qt.Key_Backspace):
+            self.scene().delete_selected_edges()
+            event.accept()
+        else:
+            super().keyPressEvent(event)

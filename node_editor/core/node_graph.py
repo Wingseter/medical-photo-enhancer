@@ -1,6 +1,8 @@
 import uuid
 
 class Node:
+    category = "Uncategorized"  # Default category for nodes
+
     def __init__(self, name, params=None):
         self.id = str(uuid.uuid4())
         self.name = name

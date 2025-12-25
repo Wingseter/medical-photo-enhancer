@@ -3,6 +3,8 @@ import numpy as np
 from node_editor.core.node_graph import Node
 
 class GaussianBlurNode(Node):
+    category = "Image Processing"
+
     def __init__(self):
         super().__init__("GaussianBlur", params={'kernel_size': {'type': 'int', 'value': 5, 'range': (1, 31), 'step': 2}})
     def process(self, input_data):
@@ -11,6 +13,8 @@ class GaussianBlurNode(Node):
         return cv2.GaussianBlur(img, (ksize, ksize), 0)
 
 class SharpenNode(Node):
+    category = "Image Processing"
+
     def __init__(self):
         super().__init__("Sharpen", params={'strength': {'type': 'float', 'value': 1.0, 'range': (0.1, 5.0)}})
     def process(self, input_data):
@@ -20,12 +24,16 @@ class SharpenNode(Node):
         return cv2.addWeighted(img, 1 - strength, sharpened, strength, 0)
 
 class GrayscaleNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Grayscale")
     def process(self, input_data):
         img = input_data[0]
         return cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) if len(img.shape) == 3 else img
 
 class BrightnessContrastNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Brightness/Contrast", params={'brightness': {'type': 'int', 'value': 0, 'range': (-100, 100)}, 'contrast': {'type': 'float', 'value': 1.0, 'range': (0.1, 3.0)}})
     def process(self, input_data):
         img = input_data[0].astype(np.float32)
@@ -33,6 +41,8 @@ class BrightnessContrastNode(Node):
         return np.clip(img * contrast + brightness, 0, 255).astype(np.uint8)
 
 class CannyEdgeNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("CannyEdge", params={'threshold1': {'type': 'int', 'value': 100, 'range': (0, 500)}, 'threshold2': {'type': 'int', 'value': 200, 'range': (0, 500)}})
     def process(self, input_data):
         img = input_data[0]
@@ -40,6 +50,8 @@ class CannyEdgeNode(Node):
         return cv2.Canny(img, self.get_parameter('threshold1'), self.get_parameter('threshold2'))
 
 class ThresholdNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Threshold", params={'threshold': {'type': 'int', 'value': 127, 'range': (0, 255)}, 'max_value': {'type': 'int', 'value': 255, 'range': (0, 255)}})
     def process(self, input_data):
         img = input_data[0]
@@ -48,6 +60,8 @@ class ThresholdNode(Node):
         return result
 
 class HueSaturationNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Hue/Saturation", params={'hue': {'type': 'int', 'value': 0, 'range': (-90, 90)}, 'saturation': {'type': 'float', 'value': 1.0, 'range': (0.0, 2.0)}})
     def process(self, input_data):
         hsv = cv2.cvtColor(input_data[0], cv2.COLOR_RGB2HSV).astype(np.float32)
@@ -58,15 +72,21 @@ class HueSaturationNode(Node):
         return cv2.cvtColor(final_hsv.astype(np.uint8), cv2.COLOR_HSV2RGB)
 
 class ResizeNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Resize", params={'width': {'type': 'int', 'value': 512, 'range': (1, 4096)}, 'height': {'type': 'int', 'value': 512, 'range': (1, 4096)}})
     def process(self, input_data):
         return cv2.resize(input_data[0], (self.get_parameter('width'), self.get_parameter('height')), interpolation=cv2.INTER_AREA)
 
 class InvertNode(Node):
+    category = "Image Processing"
+
     def __init__(self): super().__init__("Invert")
     def process(self, input_data): return cv2.bitwise_not(input_data[0])
 
 class MixNode(Node):
+    category = "Image Processing"
+
     def __init__(self):
         super().__init__("Mix (Overlay)", params={'factor': {'type': 'float', 'value': 0.5, 'range': (0.0, 1.0)}})
         self.max_inputs = 2
